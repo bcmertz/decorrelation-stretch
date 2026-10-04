@@ -62,5 +62,7 @@ def decorrstretch(A, tol=None):
 
 if __name__ == "__main__":
     file = sys.argv[1]
+    tol = sys.argv[2] if len(sys.argv) > 2 else None
     img = cv2.imread(file)
-    decorrstretch(np.asarray(img))
+    img_arr = np.asarray(img)
+    decorrstretch(img_arr, tol)
