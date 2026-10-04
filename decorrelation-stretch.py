@@ -1,3 +1,4 @@
+import sys
 from functools import reduce
 
 import cv2
@@ -55,9 +56,11 @@ def decorrstretch(A, tol=None):
         B[:,:,b] = 255 * (B[:,:,b] - B[:,:,b].min())/(B[:,:,b].max() - B[:,:,b].min())
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
-    np.save("out.png", out)
+    cv2.imwrite("out.png", out)
+    # np.save("out.png", out)
 
 
 if __name__ == "__main__":
-    img = cv2.imread("test.png")
+    file = sys.argv[1]
+    img = cv2.imread(file)
     decorrstretch(np.asarray(img))
