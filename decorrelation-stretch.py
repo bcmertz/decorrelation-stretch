@@ -57,7 +57,6 @@ def decorrstretch(A, tol=None):
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
     cv2.imwrite("out.png", out)
-    # np.save("out.png", out)
 
 
 if __name__ == "__main__":
