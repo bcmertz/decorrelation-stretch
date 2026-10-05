@@ -28,9 +28,10 @@ def decorrstretch(A, tol=None):
     sigma = np.diag(np.sqrt(cov.diagonal()))
     # eigen decomposition of covariance matrix
     eigval, V = np.linalg.eig(cov)
+    eigval, V = eigval.real, V.real
     # stretch matrix
-    S = np.diag(1/np.sqrt(eigval))
     # compute mean of each color
+    S = np.diag(1/np.sqrt(eigval))
     mean = np.mean(A, axis=0)
     # substract the mean from image
     A -= mean
