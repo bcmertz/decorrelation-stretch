@@ -1,3 +1,5 @@
+# modified from https://github.com/lbrabec/decorrstretch/
+
 import sys
 from functools import reduce
 
