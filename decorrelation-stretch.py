@@ -14,7 +14,7 @@ def decorrstretch(A, tol=None):
 
     Arguments:
     A   -- image in cv2/numpy.array format
-    tol -- float, 1 - 100; upper and lower limit of contrast stretching
+    tol -- float, 1 - 99; upper and lower limit of contrast stretching
     """
 
     # save the original shape
