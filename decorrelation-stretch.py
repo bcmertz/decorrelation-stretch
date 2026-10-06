@@ -48,8 +48,8 @@ def decorrstretch(A, tol=None):
     A += mean + offset
     # restore original shape
     B = A.reshape(orig_shape)
-    # for each color...
     # TODO: figure out tiffs and single band rasters
+    # for each color...
     for b in range(3):
         # apply contrast stretching if requested
         if tol:
