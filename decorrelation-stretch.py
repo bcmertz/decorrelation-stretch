@@ -3,6 +3,7 @@
 import sys
 from functools import reduce
 
+# TODO: remove usage of cv2 for arcgis pro compat
 import cv2
 import numpy as np
 
@@ -48,6 +49,7 @@ def decorrstretch(A, tol=None):
     # restore original shape
     B = A.reshape(orig_shape)
     # for each color...
+    # TODO: figure out tiffs and single band rasters
     for b in range(3):
         # apply contrast stretching if requested
         if tol:
@@ -69,6 +71,7 @@ def decorrstretch(A, tol=None):
             B[:,:,b] = B[:,:,b] - B[:,:,b].min()
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
+    # TODO: consider output file name command line argument option
     cv2.imwrite("out.png", out)
 
 
