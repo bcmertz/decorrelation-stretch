@@ -72,6 +72,7 @@ def decorrstretch(A, tol=None):
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
     # TODO: consider output file name command line argument option
+    # TODO: figure out why image file size 3x's after running
     cv2.imwrite("out.png", out)
 
 
