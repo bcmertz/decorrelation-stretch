@@ -1,11 +1,8 @@
 [project]
 name = "decorrelation-stretch"
 version = "0.1.0"
-description = "Add your description here"
+description = "decorrelation stretch implementation"
 readme = "README.md"
-authors = [
-    { name = "reya", email = "bennett.mertz@gmail.com" }
-]
 requires-python = ">=3.14"
 dependencies = [
     "numpy>=2.5.3",
