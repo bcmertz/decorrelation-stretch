@@ -51,12 +51,22 @@ def decorrstretch(A, tol=None):
     for b in range(3):
         # apply contrast stretching if requested
         if tol:
+            # TODO: figure out why sometimes low and high become equal and write better comments
             # find lower and upper limit for contrast stretching
             low, high = np.percentile(B[:,:,b], tol), np.percentile(B[:,:,b], 100-tol)
-            B[B<low] = low
-            B[B>high] = high
-        # ...rescale the color values to 0..255
-        B[:,:,b] = 255 * (B[:,:,b] - B[:,:,b].min())/(B[:,:,b].max() - B[:,:,b].min())
+            if low == high:
+                # don't accept too high of contrast value
+                print("contrast value too high")
+            else:
+                # update contrast
+                B[B<low] = low
+                B[B>high] = high
+        # rescale the color values to 0..255
+        diff = B[:,:,b].max() - B[:,:,b].min()
+        if diff != 0:
+            B[:,:,b] = 255 * (B[:,:,b] - B[:,:,b].min())/diff
+        else:
+            B[:,:,b] = B[:,:,b] - B[:,:,b].min()
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
     cv2.imwrite("out.png", out)
