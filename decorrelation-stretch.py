@@ -51,8 +51,6 @@ def decorrstretch(A, tol=None):
     for b in range(3):
         # apply contrast stretching if requested
         if tol:
-            # scale tol to upper and lower limit
-            tol /= 2
             # find lower and upper limit for contrast stretching
             low, high = np.percentile(B[:,:,b], tol), np.percentile(B[:,:,b], 100-tol)
             B[B<low] = low
@@ -66,7 +64,7 @@ def decorrstretch(A, tol=None):
 
 if __name__ == "__main__":
     file = sys.argv[1]
-    tol = float(sys.argv[2]) if len(sys.argv) > 2 else None
+    tol = float(sys.argv[2]) / 2 if len(sys.argv) > 2 else None
     img = cv2.imread(file)
     img_arr = np.asarray(img)
     decorrstretch(img_arr, tol)
