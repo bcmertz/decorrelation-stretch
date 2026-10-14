@@ -9,13 +9,13 @@ import cv2
 import numpy as np
 
 
-def decorrstretch(A, tol=None):
+def decorrstretch(A, tol):
     """
     Apply decorrelation stretch to image
 
     Arguments:
     A   -- image in cv2/numpy.array format
-    tol -- float, 1 - 99; upper and lower limit of contrast stretching
+    tol -- [[band1_min, band1_max], [band2_min, band2_max], ...] all floats, upper and lower limit of contrast stretching
     """
 
     # save the original shape
@@ -49,14 +49,16 @@ def decorrstretch(A, tol=None):
     A += mean + offset
     # restore original shape
     B = A.reshape(orig_shape)
-    # TODO: figure out tiffs and single band rasters
+    # TODO: read in number of bands
+    num_bands = 3
     # for each color...
-    for b in range(3):
+    for band in range(num_bands):
         # apply contrast stretching if requested
-        if tol:
-            # TODO: figure out why sometimes low and high become equal and write better comments
+        try:
+            # TODO: figure out why sometimes low and high become equal
+            # TODO: write better comments
             # find lower and upper limit for contrast stretching
-            low, high = np.percentile(B[:,:,b], tol), np.percentile(B[:,:,b], 100-tol)
+            low, high = np.percentile(B[:,:,band], tol[band][0]), np.percentile(B[:,:,band], tol[band][1])
             if low == high:
                 # don't accept too high of contrast value
                 print("contrast value too high")
@@ -64,12 +66,14 @@ def decorrstretch(A, tol=None):
                 # update contrast
                 B[B<low] = low
                 B[B>high] = high
+        except Exception:  # noqa: BLE001, S110
+            pass
         # rescale the color values to 0..255
-        diff = B[:,:,b].max() - B[:,:,b].min()
+        diff = B[:,:,band].max() - B[:,:,band].min()
         if diff != 0:
-            B[:,:,b] = 255 * (B[:,:,b] - B[:,:,b].min())/diff
+            B[:,:,band] = 255 * (B[:,:,band] - B[:,:,band].min())/diff
         else:
-            B[:,:,b] = B[:,:,b] - B[:,:,b].min()
+            B[:,:,band] = B[:,:,band] - B[:,:,band].min()
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
     # TODO: consider output file name command line argument option
