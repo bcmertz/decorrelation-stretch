@@ -1,6 +1,7 @@
 # modified from https://github.com/lbrabec/decorrstretch/
 
-import sys
+import argparse
+import ast
 from functools import reduce
 
 # TODO: remove usage of cv2 for arcgis pro compat
@@ -77,8 +78,18 @@ def decorrstretch(A, tol=None):
 
 
 if __name__ == "__main__":
-    file = sys.argv[1]
-    tol = float(sys.argv[2]) / 2 if len(sys.argv) > 2 else None
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="file name or path of input image", type=str)
+    parser.add_argument("tol", help="TODO", nargs="*", type=ast.literal_eval)
+
+    args = parser.parse_args()
+
+    file = args.file
+    tol = args.tol
+    print(tol)
+
+    # TODO: handle tiffs, etc
     img = cv2.imread(file)
     img_arr = np.asarray(img)
     decorrstretch(img_arr, tol)
+    # # uv run decorrelation-stretch.py test/test3.jpg [band1_min, band1_max] [band2_min, band2_max] [band3_min, band3_max]
