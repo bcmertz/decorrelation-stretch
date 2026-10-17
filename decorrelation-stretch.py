@@ -4,9 +4,8 @@ import argparse
 import ast
 from functools import reduce
 
-# TODO: remove usage of cv2 for arcgis pro compat
-import cv2
 import numpy as np
+from PIL import Image
 
 
 def decorrstretch(A, tol):
@@ -78,8 +77,8 @@ def decorrstretch(A, tol):
     out = B.astype(np.uint8)
     # TODO: consider output file name command line argument option
     # TODO: figure out why image file size 3x's after running
-    cv2.imwrite("out.png", out)
-
+    im = Image.fromarray(out)
+    im.save("out.png")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -92,8 +91,7 @@ if __name__ == "__main__":
     tol = args.tol
     print(tol)
 
-    # TODO: handle tiffs, etc
-    img = cv2.imread(file)
+    img = Image.open(file)
     img_arr = np.asarray(img)
     decorrstretch(img_arr, tol)
     # # uv run decorrelation-stretch.py test/test3.jpg [band1_min, band1_max] [band2_min, band2_max] [band3_min, band3_max]
