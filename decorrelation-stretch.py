@@ -19,12 +19,14 @@ def decorrstretch(A, tol):
 
     # save the original shape
     orig_shape = A.shape
+    num_bands = len(orig_shape)
+
     # reshape the image
     #         B G R
     # pixel 1 .
     # pixel 2   .
     #  . . .      .
-    A = A.reshape((-1,3)).astype(np.float64)
+    A = A.reshape((-1,num_bands)).astype(np.float64)
     # covariance matrix of A
     cov = np.cov(A.T)
     # source and target sigma
@@ -48,8 +50,6 @@ def decorrstretch(A, tol):
     A += mean + offset
     # restore original shape
     B = A.reshape(orig_shape)
-    # TODO: read in number of bands
-    num_bands = 3
     # for each color...
     for band in range(num_bands):
         # apply contrast stretching if requested
