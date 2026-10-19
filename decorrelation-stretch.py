@@ -63,7 +63,7 @@ def decorrelation_stretch(A, tol):
             # TODO: write better comments
             # find lower and upper limit for contrast stretching
             low, high = np.percentile(B[:,:,band], tol[band][0]), np.percentile(B[:,:,band], tol[band][1])
-            if low == high:
+            if low >= high:
                 # don't accept too high of contrast value
                 print("contrast value too high")
             else:
