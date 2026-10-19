@@ -2,13 +2,14 @@
 
 import argparse
 import ast
+import sys
 from functools import reduce
 
 import numpy as np
 from PIL import Image
 
 
-def decorrstretch(A, tol):
+def decorrelation_stretch(A, tol):
     """
     Apply decorrelation stretch to image
 
@@ -93,9 +94,8 @@ if __name__ == "__main__":
 
     file = args.file
     tol = args.tol
-    print(tol)
 
     img = Image.open(file)
     img_arr = np.asarray(img)
-    decorrstretch(img_arr, tol)
+    decorrelation_stretch(img_arr, tol)
     # # uv run decorrelation-stretch.py test/test3.jpg [band1_min, band1_max] [band2_min, band2_max] [band3_min, band3_max]
