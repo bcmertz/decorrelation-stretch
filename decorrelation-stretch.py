@@ -19,7 +19,11 @@ def decorrstretch(A, tol):
 
     # save the original shape
     orig_shape = A.shape
-    num_bands = len(orig_shape)
+    try:
+        num_bands = orig_shape[2]
+    except IndexError:
+        print("Error: Image must have more than one color band.")
+        sys.exit()
 
     # reshape the image
     #         B G R
