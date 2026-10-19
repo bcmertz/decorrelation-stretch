@@ -1,4 +1,8 @@
-# modified from https://github.com/lbrabec/decorrstretch/
+# modified from https://github.com/lbrabec/
+#
+# run like:
+# uv run decorrelation-stretch.py test/test3.jpg [band1_min, band1_max] [band2_min, band2_max] [band3_min, band3_max]
+
 
 import argparse
 import ast
@@ -98,4 +102,3 @@ if __name__ == "__main__":
     img = Image.open(file)
     img_arr = np.asarray(img)
     decorrelation_stretch(img_arr, tol)
-    # uv run decorrelation-stretch.py test/test3.jpg [band1_min, band1_max] [band2_min, band2_max] [band3_min, band3_max]
