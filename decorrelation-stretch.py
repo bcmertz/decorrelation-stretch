@@ -35,7 +35,7 @@ def decorrelation_stretch(A, tol):
     # pixel 1 .
     # pixel 2   .
     #  . . .      .
-    A = A.reshape((-1,num_bands)).astype(np.float64)
+    A = A.reshape((-1, num_bands)).astype(np.float64)
     # covariance matrix of A
     cov = np.cov(A.T)
     # source and target sigma
@@ -45,7 +45,7 @@ def decorrelation_stretch(A, tol):
     eigval, V = eigval.real, V.real
     # stretch matrix
     # compute mean of each color
-    S = np.diag(1/np.sqrt(eigval))
+    S = np.diag(1 / np.sqrt(eigval))
     mean = np.mean(A, axis=0)
     # substract the mean from image
     A -= mean
@@ -66,28 +66,32 @@ def decorrelation_stretch(A, tol):
             # TODO: figure out why sometimes low and high become equal
             # TODO: write better comments
             # find lower and upper limit for contrast stretching
-            low, high = np.percentile(B[:,:,band], tol[band][0]), np.percentile(B[:,:,band], tol[band][1])
+            low, high = (
+                np.percentile(B[:, :, band], tol[band][0]),
+                np.percentile(B[:, :, band], tol[band][1]),
+            )
             if low >= high:
                 # don't accept too high of contrast value
                 print("contrast value too high")
             else:
                 # update contrast
-                B[B<low] = low
-                B[B>high] = high
+                B[B < low] = low
+                B[B > high] = high
         except Exception:  # noqa: BLE001, S110
             pass
         # rescale the color values to 0..255
-        diff = B[:,:,band].max() - B[:,:,band].min()
+        diff = B[:, :, band].max() - B[:, :, band].min()
         if diff != 0:
-            B[:,:,band] = 255 * (B[:,:,band] - B[:,:,band].min())/diff
+            B[:, :, band] = 255 * (B[:, :, band] - B[:, :, band].min()) / diff
         else:
-            B[:,:,band] = B[:,:,band] - B[:,:,band].min()
+            B[:, :, band] = B[:, :, band] - B[:, :, band].min()
     # return it as uint8 (byte) image
     out = B.astype(np.uint8)
     # TODO: consider output file name command line argument option
     # TODO: figure out why image file size 3x's after running
     im = Image.fromarray(out)
     im.save("out.png")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
